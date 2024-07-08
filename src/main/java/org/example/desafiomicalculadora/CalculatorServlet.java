@@ -13,9 +13,9 @@ public class CalculatorServlet extends HttpServlet {
         String operacion = request.getParameter("operacion");
 
         try {
-            int num1 = Integer.parseInt(num1Str);
-            int num2 = Integer.parseInt(num2Str);
-            int resultado = 0;
+            float num1 = Float.parseFloat(num1Str);
+            float num2 = Float.parseFloat(num2Str);
+            float resultado = 0;
 
             switch (operacion) {
                 case "suma":
@@ -36,7 +36,7 @@ public class CalculatorServlet extends HttpServlet {
                     break;
                 case "ordenar":
                     // Ordenar números en orden ascendente
-                    int[] numeros = {num1, num2};
+                    float[] numeros = {num1, num2};
                     Arrays.sort(numeros);
                     resultado = numeros[0]; // Tomamos el menor número después de ordenar
                     break;

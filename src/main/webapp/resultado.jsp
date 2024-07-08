@@ -14,7 +14,7 @@
 </head>
 <body>
 <h1>Resultado</h1>
-<% int resultado = (int) request.getAttribute("resultado"); %>
+<% float resultado = (float) request.getAttribute("resultado"); %>
 <p>El resultado es: <%= resultado %></p>
 </body>
 </html>
