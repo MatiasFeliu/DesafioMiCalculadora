@@ -14,7 +14,18 @@
 </head>
 <body>
 <h1>Resultado</h1>
-<% float resultado = (float) request.getAttribute("resultado"); %>
-<p>El resultado es: <%= resultado %></p>
+<p><%= request.getAttribute("mensaje") %></p>
+<p>El resultado es: <%= request.getAttribute("resultado") %></p>
+
+<%-- Mostrar números ordenados si existe el atributo --%>
+<% float[] numeros = (float[]) request.getAttribute("numeros"); %>
+<% if (numeros!= null && numeros.length > 0) { %>
+<p>Números ordenados:
+    <% for (float numero : numeros) { %>
+    <%= numero %>
+    <% } %>
+</p>
+<% } %>
+
 </body>
 </html>

@@ -13,6 +13,11 @@ public class CalculatorServlet extends HttpServlet {
         String operacion = request.getParameter("operacion");
 
         try {
+            // Validar que los parámetros num1 y num2 no sean nulos ni vacíos
+            if (num1Str == null || num1Str.trim().isEmpty() || num2Str == null || num2Str.trim().isEmpty()) {
+                throw new IllegalArgumentException("Ingrese números válidos.");
+            }
+
             float num1 = Float.parseFloat(num1Str);
             float num2 = Float.parseFloat(num2Str);
             float resultado = 0;
@@ -39,15 +44,19 @@ public class CalculatorServlet extends HttpServlet {
                     float[] numeros = {num1, num2};
                     Arrays.sort(numeros);
                     resultado = numeros[0]; // Tomamos el menor número después de ordenar
+                    request.setAttribute("numeros", numeros);
+                    request.setAttribute("Mensaje", "Números ordenados de forma ascendente: ");
                     break;
                 case "parimpar":
-                    // Determinar si num1 es par o impar
-                    if (num1 % 2 == 0) {
-                        resultado = 1; // Par
-                    } else {
-                        resultado = 0; // Impar
+                    // Validar que num1 sea un número válido para determinar si es par o impar
+                    if (num1 % 1 != 0) {
+                        throw new IllegalArgumentException("El número debe ser entero para determinar par o impar.");
                     }
+                    String mensajeParImpar = num1 % 2 == 0 ? "El primer número es par." : "El primer número es impar.";
+                    resultado = num1; // Solo necesitamos mostrar si es par o impar, no afecta al resultado final
+                    request.setAttribute("mensaje", mensajeParImpar);
                     break;
+
                 default:
                     throw new IllegalArgumentException("Operación no válida");
             }
@@ -56,8 +65,12 @@ public class CalculatorServlet extends HttpServlet {
             request.setAttribute("resultado", resultado);
             request.getRequestDispatcher("resultado.jsp").forward(request, response);
 
-        } catch (ArithmeticException | IllegalArgumentException e) {
-            // Enviar a página de error si ocurre un error en la operación
+        } catch (NumberFormatException e) {
+            // Enviar a página de error si ocurre un error en la conversión de números
+            request.getRequestDispatcher("error.jsp").forward(request, response);
+
+        } catch (IllegalArgumentException e) {
+            // Enviar a página de error si los datos no son válidos
             request.getRequestDispatcher("error.jsp").forward(request, response);
         }
     }
